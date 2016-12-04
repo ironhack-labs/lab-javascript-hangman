@@ -4,12 +4,8 @@ function Hangman () {
   this.letters    = [];
   this.errorsLeft = 10;
 
-  this._initialize();
-}
-
-Hangman.prototype._initialize = function () {
   this.secretWord = this._getWord();
-};
+}
 
 Hangman.prototype._getWord = function () {
   var random = Math.floor(Math.random() * this.words.length);
