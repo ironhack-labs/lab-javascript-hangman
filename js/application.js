@@ -3,24 +3,19 @@ var hangman;
 var newGameClick = function () {
   _initializeControls();
   hangman = new Hangman();
-  showGame();
   drawCurrentWord();
 };
 
 var _initializeControls = function () {
   document.getElementById("you-win").classList   = "hide";
   document.getElementById("game-over").classList = "hide";
-  document.getElementById("game").classList      = "hide";
   document.getElementById("hangman").classList   = "";
   document.getElementById("letters").innerHTML   = "";
 };
 
-var showGame = function () {
-  document.getElementById("game").classList = "show";
-};
-
 var resetCurrentWord = function () {
   var word = document.getElementById("currentWord");
+  
   while (word.firstChild) {
     word.removeChild(word.firstChild);
   }
@@ -41,14 +36,11 @@ var drawCurrentWord = function (word) {
   });
 };
 
-var drawHangman = function (correctLetter) {
-  if (correctLetter)
-    return;
-
+var drawHangman = function () {
   document.getElementById("hangman").classList += " lifes-" + (hangman.errorsLeft + 1);
 };
 
-var addLetter = function (letter) {
+var _addLetter = function (letter) {
   document.getElementById("letters").innerHTML += letter;
 };
 
@@ -56,14 +48,16 @@ var insertLetter = function (event) {
   if (!hangman || (event.keyCode < 65 || event.keyCode > 90))
     return;
 
-  var letter = String.fromCharCode(event.keyCode);
+  var letter  = String.fromCharCode(event.keyCode);
   var correct = hangman.askLetter(letter);
 
-  if (correct !== undefined)
-    addLetter(letter);
+  if (!correct && correct !== undefined) {
+    _addLetter(letter);
+    drawHangman();
+  } else {
+    drawCurrentWord();
+  }
 
-  drawCurrentWord();
-  drawHangman(correct);
   afterRound();
 };
 
