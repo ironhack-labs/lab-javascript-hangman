@@ -1,4 +1,5 @@
 function Hangman () {
+  console.log("yo")
 }
 
 Hangman.prototype._getWord = function () {
